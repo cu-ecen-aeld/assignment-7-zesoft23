@@ -5,16 +5,18 @@ DIR=/home/root
 
 export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
 
-common_opts="--chuid $USER --pidfile $PIDFILE"
-
 do_start(){
+    cd /etc/scull/scull_load
     /etc/scull/scull_load
+    cd /etc/scull/module_load
     /etc/misc-modules/module_load hello
     /etc/misc-modules/module_load faulty
 }
 
 do_stop(){
+    cd /etc/scull/scull_load
     /etc/scull/scull_unload
+    cd /etc/scull/module_load
     /etc/misc-modules/module_unload hello
     /etc/misc-modules/module_unload faulty
 }
@@ -44,7 +46,7 @@ case "$1" in
         do_status
         ;;
   start)
-        echo -n "Loading assingment 7 modules: "$NAME
+        echo -n "Loading assignment 7 modules: "$NAME
         do_start
         echo "."
         ;;
@@ -54,7 +56,7 @@ case "$1" in
         echo "."
         ;;
   restart)
-        echo -n "Reloading assingment 7 modules: "$NAME
+        echo -n "Reloading assignment 7 modules: "$NAME
         do_stop
         do_start
         echo "."
