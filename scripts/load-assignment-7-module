@@ -1,0 +1,67 @@
+#!/bin/sh
+
+NAME=assignment-7-mod
+DIR=/home/root
+
+export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+
+common_opts="--chuid $USER --pidfile $PIDFILE"
+
+do_start(){
+    /etc/scull/scull_load
+    /etc/misc-modules/module_load hello
+    /etc/misc-modules/module_load faulty
+}
+
+do_stop(){
+    /etc/scull/scull_unload
+    /etc/misc-modules/module_unload hello
+    /etc/misc-modules/module_unload faulty
+}
+
+do_status(){
+    if lsmod | grep -q "^scull "; then
+        echo "scull is loaded"
+    else
+        echo "scull is not loaded"
+    fi
+
+    if lsmod | grep -q "^hello "; then
+        echo "hello is loaded"
+    else
+        echo "hello is not loaded"
+    fi
+
+    if lsmod | grep -q "^faulty "; then
+        echo "faulty is loaded"
+    else
+        echo "faulty is not loaded"
+    fi
+}
+
+case "$1" in
+  status)
+        do_status
+        ;;
+  start)
+        echo -n "Loading assingment 7 modules: "$NAME
+        do_start
+        echo "."
+        ;;
+  stop)
+        echo -n "Unloading assignment 7 modules: "$NAME
+        do_stop
+        echo "."
+        ;;
+  restart)
+        echo -n "Reloading assingment 7 modules: "$NAME
+        do_stop
+        do_start
+        echo "."
+        ;;
+  *)
+        echo "Usage: "$1" {status|start|stop|restart}"
+        exit 1
+esac
+
+exit 0
