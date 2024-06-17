@@ -6,17 +6,17 @@ DIR=/home/root
 export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
 
 do_start(){
-    cd /etc/scull/scull_load
+    cd /etc/scull/
     /etc/scull/scull_load
-    cd /etc/scull/module_load
+    cd /etc/misc-modules/
     /etc/misc-modules/module_load hello
     /etc/misc-modules/module_load faulty
 }
 
 do_stop(){
-    cd /etc/scull/scull_load
+    cd /etc/scull/
     /etc/scull/scull_unload
-    cd /etc/scull/module_load
+    cd /etc/misc-modules/
     /etc/misc-modules/module_unload hello
     /etc/misc-modules/module_unload faulty
 }
